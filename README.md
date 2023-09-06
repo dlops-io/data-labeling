@@ -54,6 +54,22 @@ It is important to note that we do not want any secure information in Git. So we
 ...
 ```
 
+## Prepare Dataset
+In this step we will assume we have already collected some data for the mushroom app. The images are of various mushrooms belonging to either `amanita`, `crimini`, or `oyster` type. None of the images are labeled and our task here is to use label studio to manage labeling of images.
+
+### Download data
+- Download the unlabeled data from [here](https://github.com/dlops-io/datasets/releases/download/v3.0/mushrooms_unlabeled.zip)
+- Extract the zip file
+
+### Create GCS Bucket
+- Go to `https://console.cloud.google.com/storage/browser`
+- Create a bucket `mushroom-app-data` (replace with your bucket name)
+- Create a folder `mushrooms_unlabeled` inside the bucket
+- Create a folder `mushrooms_labeled` inside the bucket
+
+### Upload data to Bucket
+- Upload the images from your local folder into the folder `mushrooms_unlabeled` inside the bucket
+
 ## Run Label Studio Container
 
 ### Run `docker-shell.sh` or `docker-shell.bat`
@@ -147,6 +163,11 @@ Go into the newly create project and you should see the images automatically pul
 - Run `python -m cli`
 
 You will see the json output of the annotations for each image that is being stored in Label Studio
+```
+Annotations: [{'id': 5, 'created_username': ' pavlos@seas.harvard.edu, 1', 'created_ago': '1\xa0hour, 53\xa0minutes', 'completed_by': 1, 'result': [{'value': {'choices': ['amanita']}, 'id': 'qHjUzqXO6W', 'from_name': 'choice', 'to_name': 'image', 'type': 'choices', 'origin': 'manual'}], 'was_cancelled': False, 'ground_truth': False, 'created_at': '2023-09-06T17:33:08.558474Z', 'updated_at': '2023-09-06T17:33:08.558492Z', 'draft_created_at': None, 'lead_time': 5.981, 'import_id': None, 'last_action': None, 'task': 1, 'project': 1, 'updated_by': 1, 'parent_prediction': None, 'parent_annotation': None, 'last_created_by': None}]
+
+Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'created_ago': '1\xa0hour, 55\xa0minutes', 'completed_by': 1, 'result': [{'value': {'choices': ['amanita']}, 'id': 'Hp3wZORhBI', 'from_name': 'choice', 'to_name': 'image', 'type': 'choices', 'origin': 'manual'}], 'was_cancelled': False, 'ground_truth': False, 'created_at': '2023-09-06T17:31:04.307102Z', 'updated_at': '2023-09-06T17:31:04.307117Z', 'draft_created_at': None, 'lead_time': 11.197, 'import_id': None, 'last_action': None, 'task': 2, 'project': 1, 'updated_by': 1, 'parent_prediction': None, 'parent_annotation': None, 'last_created_by': None}]
+```
 
 
 ## Docker Cleanup
