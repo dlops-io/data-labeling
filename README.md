@@ -67,13 +67,71 @@ This will run two container. The label studio container and a CLI container that
 
 ## Setup Label Studio
 
-### Create a Project
+### Create Annotation Project
+Here we will setup the Label Studio App to user our mushroom images so we can annotate them. 
+- Run the Label Studio App by going to `http://localhost:8080/`
+- Login with `pavlos@seas.harvard.edu` / `awesome`, if you kept the credentials in the docker compose file the same
+- Click `Create` project to create a new project
+- Give it a project name
+- Skip `Data Import` tab and go to `Labeling Setup`
+- Select Template: Computer Vision > Image Classification
+- Remove the default label choices and add: `amanita`, `crimini`, `oyster`
+- Save
 
-### Setup Cloud Storage
+### Configure Cloud Storage
+Next we will configure Label Studio to read images from a GCS bucket and save annotations to a GCS bucket
+- Go the project created in the previous step
+- Click on `Settings` and select `Cloud Storage` on the left options
+- Click `Add Source Storage`
+- Then in the popup for storage details:
+    - Storage Type: `Google Cloud Storage`
+    - Storage Title: `Mushroom Images`
+    - Bucket Name: `mushroom-app-data` (replace with your bucket name)
+    - Bucket Prefix: `mushrooms_unlabeled`
+    - File Filter Regex: `.*`
+    - Enable: Treat every bucket object as a source file
+    - Enable: Use pre-signed URLs
+    - Ignore: Google Application Credentials
+    - Ignore: Google Project ID
+- You can `Check Connection` to make sure your connection works
+- `Save` your changes
+- Click `Sync Storage` to start syncing from the bucket to label studio
+- Click `Add Target Storage`
+- Then in the popup for storage details:
+    - Storage Type: `Google Cloud Storage`
+    - Storage Title: `Mushroom Images`
+    - Bucket Name: `mushroom-app-data` (replace with your bucket name)
+    - Bucket Prefix: `mushrooms_labeled`
+    - Ignore: Google Application Credentials
+    - Ignore: Google Project ID
+- You can `Check Connection` to make sure your connection works
+- `Save` your changes
+
+### Enable cross-origin resource sharing (CORS)
+In odder to view images in Label studio directly from GCS Bucket, we need to enable CORS
+- Go to the shell where ran the docker containers
+- Open `data-labeling` folder in VSCode 
+- Uncomment the function call:
+    ```
+    # Set the CORS configuration on a bucket
+    await set_cors_configuration()
+    ```
+- Run `python -m cli`
+
 
 ### Annotate Data
+Go into the newly create project and you should see the images automatically pulled in from the GCS Cloud Storage Bucket
+- Click on an item in the grid to annotate using the UI
+- Repeat for a few of the images
+
+### View Annotations in GCS Bucket
+- Go to `https://console.cloud.google.com/storage/browser`
+- Go into the `mushroom-app-data` (replace with your bucket name) and then into the folder `mushrooms_labeled`
+- You should see some json files corresponding to the images in the `mushrooms_unlabeled` that have been annotated
+
 
 ### View Annotations using CLI
+- Go to
 
 
 ## Docker Cleanup
