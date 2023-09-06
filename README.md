@@ -131,7 +131,22 @@ Go into the newly create project and you should see the images automatically pul
 
 
 ### View Annotations using CLI
-- Go to
+- Go to the shell where ran the docker containers
+- Open `data-labeling` folder in VSCode 
+- Uncomment the function call:
+    ```
+    # Get projects from label studio using API
+    await get_projects()
+    ```
+- Run `python -m cli`
+- Uncomment the function call:
+    ```
+    # View Annotation Tasks
+    await get_project_tasks(1)
+    ```
+- Run `python -m cli`
+
+You will see the json output of the annotations for each image that is being stored in Label Studio
 
 
 ## Docker Cleanup

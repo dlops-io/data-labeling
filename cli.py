@@ -119,7 +119,7 @@ async def run():
         # Get projects from label studio using API
         # await get_projects()
 
-        # Tasks
+        # View Annotation Tasks
         # await get_project_tasks(1)
 
         print("************** Complete ****************")
