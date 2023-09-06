@@ -4,6 +4,17 @@ networks:
         name: data-labeling
         external: true
 services:
+    data-label-cli:
+        image: data-label-cli
+        container_name: data-label-cli
+        volumes:
+            - ../secrets:/secrets
+        environment:
+            GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json
+            GCP_PROJECT: "ac215-project"
+            GCP_ZONE: "us-central1-a"
+        depends_on:
+            - data-label-studio
     data-label-studio:
         image: heartexlabs/label-studio:latest
         container_name: data-label-studio
