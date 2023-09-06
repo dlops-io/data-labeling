@@ -1,0 +1,21 @@
+version: "3.8"
+networks:
+    default:
+        name: data-labeling
+        external: true
+services:
+    data-label-studio:
+        image: heartexlabs/label-studio:latest
+        container_name: data-label-studio
+        ports:
+            - 8080:8080
+        volumes:
+            - ./docker-volumes/label-studio:/label-studio/data
+            - ../secrets:/secrets
+        environment:
+            LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK: "true"
+            LABEL_STUDIO_USERNAME: "pavlos@seas.harvard.edu"
+            LABEL_STUDIO_PASSWORD: "awesome"
+            GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json
+            GCP_PROJECT: "ac215-project"
+            GCP_ZONE: "us-central1-a"
