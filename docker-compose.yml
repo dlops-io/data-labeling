@@ -9,6 +9,7 @@ services:
         container_name: data-label-cli
         volumes:
             - ../secrets:/secrets
+            - ../data-labeling:/app
         environment:
             GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json
             GCP_PROJECT: "ac215-project"
