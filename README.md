@@ -23,12 +23,6 @@ If you already have a preferred text editor, skip this step.
 - Clone or download from [here](https://github.com/dlops-io/data-labeling)
 
 
-## Make sure we do not have any running containers and clear up an unused images
-* Run `docker container ls`
-* Stop any container that is running
-* Run `docker system prune`
-* Run `docker image ls`
-
 ## Setup GCP Credentials
 Next step is to enable our container to have access to GCP Storage buckets. 
 
@@ -59,3 +53,32 @@ It is important to note that we do not want any secure information in Git. So we
         GCP_ZONE: "us-central1-a"
 ...
 ```
+
+## Run Label Studio Container
+
+### Run `docker-shell.sh` or `docker-shell.bat`
+Based on your OS, run the startup script to make building & running the container easy
+
+- Make sure you are in the `data-labeling` folder and open a terminal at this location
+- Run `sh docker-shell.sh` or `docker-shell.bat` for windows
+
+This will run two container. The label studio container and a CLI container that can call API's to label studio
+
+
+## Setup Label Studio
+
+### Create a Project
+
+### Setup Cloud Storage
+
+### Annotate Data
+
+### View Annotations using CLI
+
+
+## Docker Cleanup
+To make sure we do not have any running containers and clear up an unused images
+* Run `docker container ls`
+* Stop any container that is running
+* Run `docker system prune`
+* Run `docker image ls`

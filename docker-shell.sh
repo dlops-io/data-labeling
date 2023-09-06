@@ -2,7 +2,6 @@
 
 set -e
 
-
 # Create the network if we don't have it yet
 docker network inspect data-labeling >/dev/null 2>&1 || docker network create data-labeling
 
