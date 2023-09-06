@@ -1,0 +1,8 @@
+# misc
+.DS_Store
+geckodriver.log
+/persistent-folder
+/secrets
+/deployment
+/database-server
+/frontend-react
