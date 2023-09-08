@@ -1,8 +1,5 @@
 # Mushroom App: Data Labeling & Versioning Demo
 
-## Mushroom App: Data Labeling
-In this tutorial we will setup a data labeling web app to label data for the mushroom app. We will use Docker to run everything inside containers.
-
 ## Prerequisites
 * Have Docker installed
 * Cloned this repository to your local machine with a terminal up and running
@@ -20,9 +17,11 @@ Install `Docker Desktop`
 Follow the [instructions](https://code.visualstudio.com/download) for your operating system.  
 If you already have a preferred text editor, skip this step.  
 
+## Mushroom App: Data Labeling
+In this tutorial we will setup a data labeling web app to label data for the mushroom app. We will use Docker to run everything inside containers.
+
 ### Clone the github repository
 - Clone or download from [here](https://github.com/dlops-io/data-labeling)
-
 
 ## Setup GCP Credentials
 Next step is to enable our container to have access to GCP Storage buckets. 
@@ -30,6 +29,12 @@ Next step is to enable our container to have access to GCP Storage buckets.
 ### Create a local **secrets** folder
 
 It is important to note that we do not want any secure information in Git. So we will manage these files outside of the git folder. At the same level as the `data-labeling` folder create a folder called **secrets**
+
+Your folder structure should look like this:
+```
+   |-data-labeling
+   |-secrets
+```
 
 ### Setup GCP Service Account
 - Here are the step to create a service account:
@@ -172,6 +177,30 @@ Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'crea
 
 ## Mushroom App: Data Versioning
 In this tutorial we will setup a data versioning pipeline step for the mushroom app. We will use Docker to run everything inside containers.
+
+### Clone the github repository
+- Clone or download from [here](https://github.com/dlops-io/data-versioning)
+
+Your folder structure should look like this:
+```
+   |-data-labeling
+   |---docker-volumes
+   |-----label-studio
+   |-data-versioning
+   |-secrets
+```
+
+
+By the end of this tutorial your folder structure should look like this:
+```
+   |-data-labeling
+   |---docker-volumes
+   |-----label-studio
+   |-data-versioning
+   |---dataset
+   |---dataset_prep
+   |-secrets
+```
 
 ## Docker Cleanup
 To make sure we do not have any running containers and clear up an unused images
