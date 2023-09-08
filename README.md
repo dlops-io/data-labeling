@@ -1,5 +1,6 @@
-# Mushroom App: Data Labeling Demo
+# Mushroom App: Data Labeling & Versioning Demo
 
+## Mushroom App: Data Labeling
 In this tutorial we will setup a data labeling web app to label data for the mushroom app. We will use Docker to run everything inside containers.
 
 ## Prerequisites
@@ -169,6 +170,8 @@ Annotations: [{'id': 5, 'created_username': ' pavlos@seas.harvard.edu, 1', 'crea
 Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'created_ago': '1\xa0hour, 55\xa0minutes', 'completed_by': 1, 'result': [{'value': {'choices': ['amanita']}, 'id': 'Hp3wZORhBI', 'from_name': 'choice', 'to_name': 'image', 'type': 'choices', 'origin': 'manual'}], 'was_cancelled': False, 'ground_truth': False, 'created_at': '2023-09-06T17:31:04.307102Z', 'updated_at': '2023-09-06T17:31:04.307117Z', 'draft_created_at': None, 'lead_time': 11.197, 'import_id': None, 'last_action': None, 'task': 2, 'project': 1, 'updated_by': 1, 'parent_prediction': None, 'parent_annotation': None, 'last_created_by': None}]
 ```
 
+## Mushroom App: Data Versioning
+In this tutorial we will setup a data versioning pipeline step for the mushroom app. We will use Docker to run everything inside containers.
 
 ## Docker Cleanup
 To make sure we do not have any running containers and clear up an unused images
