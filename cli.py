@@ -1,22 +1,22 @@
+"""
+Module that contains the command line app.
+"""
+import argparse
 import os
-import asyncio
-import pandas as pd
 import traceback
 import time
 from google.cloud import storage
 from label_studio_sdk import Client
 
 
-GCS_BUCKET_NAME = "mushroom-app-data"  # Your bucket name
-# Connect to the Label Studio API and check the connection
-LABEL_STUDIO_URL = "http://data-label-studio:8080"
+GCS_BUCKET_NAME = os.environ["GCS_BUCKET_NAME"]
+LABEL_STUDIO_URL = os.environ["LABEL_STUDIO_URL"]
+
 API_KEY = "bcc79f6a249c5b482d441018af20e952798db2b4"  # Get your API key from User > Account & Settings > Access Token
 AUTH_HEADER = {"Authorization": f"Token {API_KEY}"}
 
-label_studio_client = None
 
-
-async def set_cors_configuration():
+def set_cors_configuration():
     """Set a bucket's CORS policies configuration."""
 
     print("set_cors_configuration()")
@@ -39,7 +39,7 @@ async def set_cors_configuration():
     return bucket
 
 
-async def view_bucket_metadata():
+def view_bucket_metadata():
     """Prints out a bucket's metadata."""
 
     print("view_bucket_metadata()")
@@ -70,66 +70,85 @@ async def view_bucket_metadata():
     print(f"Labels: {bucket.labels}")
 
 
-async def get_projects():
+def get_projects(API_KEY):
     print("get_projects")
 
     # Examples using SDK: https://labelstud.io/sdk/project.html#label_studio_sdk.project.Project
+    label_studio_client = Client(url=LABEL_STUDIO_URL, api_key=API_KEY)
+    label_studio_client.check_connection()
 
     projects = label_studio_client.get_projects()
     print(projects)
     for project in projects:
-        print(project.id)
+        print(project.id, project.title, project.description)
 
     project = label_studio_client.get_project(1)
     print(project)
 
 
-async def get_project_tasks(project_id):
+def get_project_tasks(API_KEY):
     print("get_project_tasks")
 
     # Examples using SDK: https://labelstud.io/sdk/project.html#label_studio_sdk.project.Project
+    label_studio_client = Client(url=LABEL_STUDIO_URL, api_key=API_KEY)
+    label_studio_client.check_connection()
+
+    projects = label_studio_client.get_projects()
+    project_id = projects[0].id
     project = label_studio_client.get_project(project_id)
     print(project)
     # print(project.get_tasks())
     print("Number of tasks:", len(project.tasks))
 
     labeled_tasks = project.get_labeled_tasks()
-    print("Number of labled tasks:", len(labeled_tasks))
+    print("Number of labeled tasks:", len(labeled_tasks))
     for labeled_task in labeled_tasks:
         print("Annotations:", labeled_task["annotations"])
 
 
-async def run():
-    try:
-        print("CLI....")
-        total_start_time = time.time()
+def main(args=None):
+    if args.cors:
+        set_cors_configuration()
 
-        global label_studio_client
-        enable_label_studio = True
+    if args.metadata:
+        view_bucket_metadata()
 
-        if enable_label_studio:
-            label_studio_client = Client(url=LABEL_STUDIO_URL, api_key=API_KEY)
-            label_studio_client.check_connection()
+    if args.projects or args.tasks:
+        if args.key == "":
+            parser.error("-k argument i required for API access to LABEL Studio")
 
-        # Set the CORS configuration on a bucket
-        # await set_cors_configuration()
+    if args.projects:
+        get_projects(args.key)
 
-        # View the CORS configuration for a bucket
-        # await view_bucket_metadata()
-
-        # Get projects from label studio using API
-        # await get_projects()
-
-        # View Annotation Tasks
-        # await get_project_tasks(1)
-
-        print("************** Complete ****************")
-        execution_time = (time.time() - total_start_time) / 60.0
-        print("Total execution time (mins)", execution_time)
-
-    except Exception as e:
-        print(e)
-        traceback.print_exc()
+    if args.tasks:
+        get_project_tasks(args.key)
 
 
-asyncio.run(run())
+if __name__ == "__main__":
+    # Generate the inputs arguments parser
+    # if you type into the terminal 'python cli.py --help', it will provide the description
+    parser = argparse.ArgumentParser(description="Data Labeling CLI")
+
+    parser.add_argument(
+        "-c",
+        "--cors",
+        action="store_true",
+        help="Set the CORS configuration on a bucket",
+    )
+    parser.add_argument(
+        "-m",
+        "--metadata",
+        action="store_true",
+        help="View the CORS configuration for a bucket",
+    )
+    parser.add_argument(
+        "-p", "--projects", action="store_true", help="List projects in Label studio"
+    )
+    parser.add_argument(
+        "-t", "--tasks", action="store_true", help="View tasks from a project"
+    )
+    parser.add_argument("-k", "--key", default="", help="Label Studio API Key")
+
+    args = parser.parse_args()
+
+    main(args)
