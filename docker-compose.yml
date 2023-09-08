@@ -15,6 +15,7 @@ services:
             GCP_PROJECT: "ac215-project"
             GCP_ZONE: "us-central1-a"
             GCS_BUCKET_NAME: "mushroom-app-data-demo"
+            LABEL_STUDIO_URL: "http://data-label-studio:8080"
         depends_on:
             - data-label-studio
     data-label-studio:

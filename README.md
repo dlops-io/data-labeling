@@ -109,7 +109,12 @@ Based on your OS, run the startup script to make building & running the containe
 - Make sure you are inside the `data-labeling` folder and open a terminal at this location
 - Run `sh docker-shell.sh` or `docker-shell.bat` for windows
 
-This will run two container. The label studio container and a CLI container that can call API's to label studio
+This will run two container. The label studio container and a CLI container that can call API's to label studio. You can verify them by running `docker container ls` on another terminal prompt. You should see something like this:
+```
+CONTAINER ID   IMAGE                             COMMAND                  CREATED              STATUS              PORTS                                                      NAMES
+00d808ab0386   data-label-cli                    "pipenv shell"           About a minute ago   Up About a minute                                                              data-labeling-data-label-cli-run
+4ab1ec940b4a   heartexlabs/label-studio:latest   "./deploy/docker-ent…"   2 days ago           Up 2 days           0.0.0.0:8080->8080/tcp                                     data-label-studio
+```
 
 
 ## Setup Label Studio
@@ -117,8 +122,8 @@ This will run two container. The label studio container and a CLI container that
 ### Create Annotation Project
 Here we will setup the Label Studio App to user our mushroom images so we can annotate them. 
 - Run the Label Studio App by going to `http://localhost:8080/`
-- Login with `pavlos@seas.harvard.edu` / `awesome`, if you kept the credentials in the docker compose file the same
-- Click `Create` project to create a new project
+- Login with `pavlos@seas.harvard.edu` / `awesome`, use the credentials in the docker compose file that you used
+- Click `Create Project` to create a new project
 - Give it a project name
 - Skip `Data Import` tab and go to `Labeling Setup`
 - Select Template: Computer Vision > Image Classification
@@ -133,7 +138,7 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
 - Then in the popup for storage details:
     - Storage Type: `Google Cloud Storage`
     - Storage Title: `Mushroom Images`
-    - Bucket Name: `mushroom-app-data` (replace with your bucket name)
+    - Bucket Name: `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
     - Bucket Prefix: `mushrooms_unlabeled`
     - File Filter Regex: `.*`
     - Enable: Treat every bucket object as a source file
@@ -147,7 +152,7 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
 - Then in the popup for storage details:
     - Storage Type: `Google Cloud Storage`
     - Storage Title: `Mushroom Images`
-    - Bucket Name: `mushroom-app-data` (replace with your bucket name)
+    - Bucket Name: `mushroom-app-data-demo` (replace with your bucket name)
     - Bucket Prefix: `mushrooms_labeled`
     - Ignore: Google Application Credentials
     - Ignore: Google Project ID
@@ -156,14 +161,10 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
 
 ### Enable cross-origin resource sharing (CORS)
 In odder to view images in Label studio directly from GCS Bucket, we need to enable CORS
-- Go to the shell where ran the docker containers
-- Open `data-labeling` folder in VSCode 
-- Uncomment the function call:
-    ```
-    # Set the CORS configuration on a bucket
-    await set_cors_configuration()
-    ```
-- Run `python -m cli`
+- Go to the shell where we ran the docker containers
+- Run `python cli.py -c`
+- To view the CORs settings, run `python cli.py -m`
+- To view all the code open `data-labeling` folder in VSCode or any IDE of choice
 
 
 ### Annotate Data
