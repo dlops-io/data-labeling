@@ -22,6 +22,7 @@ async def set_cors_configuration():
     print("set_cors_configuration()")
     bucket_name = GCS_BUCKET_NAME
 
+    # Initiate Storage client
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucket_name)
     bucket.cors = [

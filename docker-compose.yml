@@ -1,7 +1,7 @@
 version: "3.8"
 networks:
     default:
-        name: data-labeling
+        name: data-labeling-network
         external: true
 services:
     data-label-cli:
