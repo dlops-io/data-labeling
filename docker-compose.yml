@@ -14,6 +14,7 @@ services:
             GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json
             GCP_PROJECT: "ac215-project"
             GCP_ZONE: "us-central1-a"
+            GCS_BUCKET_NAME: "mushroom-app-data-demo"
         depends_on:
             - data-label-studio
     data-label-studio:

@@ -40,7 +40,7 @@ Your folder structure should look like this:
 - Here are the step to create a service account:
 - To setup a service account you will need to go to [GCP Console](https://console.cloud.google.com/home/dashboard), search for  "Service accounts" from the top search box. or go to: "IAM & Admins" > "Service accounts" from the top-left menu and create a new service account called "data-service-account". For "Service account permissions" select "Cloud Storage" > "Storage Admin". Then click done.
 - This will create a service account
-- On the right "Actions" column click the vertical ... and select "Create key". A prompt for Create private key for "data-service-account" will appear select "JSON" and click create. This will download a Private key json file to your computer. Copy this json file into the **secrets** folder.
+- On the right "Actions" column click the vertical ... and select "Create key". A prompt for Create private key for "data-service-account" will appear select "JSON" and click create. This will download a Private key json file to your computer. Copy this json file into the **secrets** folder. Rename the json file to `data-service-account.json`
 
 
 ### Attach GCP Credentials to Container
@@ -50,14 +50,39 @@ Your folder structure should look like this:
 
 `docker-compose.yml`
 ```
-...
-    volumes:
-        - ../../secrets:/secrets
-    environment:
-        GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json
-        GCP_PROJECT: "ac215-project"
-        GCP_ZONE: "us-central1-a"
-...
+version: "3.8"
+networks:
+    default:
+        name: data-labeling-network
+        external: true
+services:
+    data-label-cli:
+        image: data-label-cli
+        container_name: data-label-cli
+        volumes:
+            - ../secrets:/secrets
+            - ../data-labeling:/app
+        environment:
+            GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json 
+            GCP_PROJECT: "ac215-project" [CHANGE TO YOUR GCP PROJECT]
+            GCP_ZONE: "us-central1-a"
+        depends_on:
+            - data-label-studio
+    data-label-studio:
+        image: heartexlabs/label-studio:latest
+        container_name: data-label-studio
+        ports:
+            - 8080:8080
+        volumes:
+            - ./docker-volumes/label-studio:/label-studio/data
+            - ../secrets:/secrets
+        environment:
+            LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK: "true"
+            LABEL_STUDIO_USERNAME: "pavlos@seas.harvard.edu" [CHANGE TO YOUR EMAIL]
+            LABEL_STUDIO_PASSWORD: "awesome" [CHANGE IF NECESSARY]
+            GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json
+            GCP_PROJECT: "ac215-project" [CHANGE TO YOUR GCP PROJECT]
+            GCP_ZONE: "us-central1-a"
 ```
 
 ## Prepare Dataset
@@ -69,7 +94,7 @@ In this step we will assume we have already collected some data for the mushroom
 
 ### Create GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
-- Create a bucket `mushroom-app-data` (replace with your bucket name)
+- Create a bucket `mushroom-app-data-demo` (replace with your bucket name)
 - Create a folder `mushrooms_unlabeled` inside the bucket
 - Create a folder `mushrooms_labeled` inside the bucket
 
