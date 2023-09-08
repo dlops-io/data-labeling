@@ -198,7 +198,7 @@ Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'crea
 ### 🎉 Congratulations we just setup Label Studio and was able to annotate some data with it
 
 ## Mushroom App: Data Versioning
-In this tutorial we will setup a data versioning pipeline step for the mushroom app. We will use Docker to run everything inside containers.
+In this tutorial we will setup a data versioning step for the mushroom app pipeline. We will use Docker to run everything inside containers.
 
 ### Clone the github repository
 - Clone or download from [here](https://github.com/dlops-io/data-versioning)
@@ -212,6 +212,27 @@ Your folder structure should look like this:
    |-secrets
 ```
 
+### Create a Data Store folder in GCS Bucket
+- Go to `https://console.cloud.google.com/storage/browser`
+- Go to the bucket `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
+- Create a folder `dvc_store` inside the bucket
+
+## Run DVC Container
+We will be using [DVC](https://dvc.org/) as our data versioning tool. DVC (Data Version Control) is an Open-source, Git-based data science tool. It applies version control to machine learning development, make your repo the backbone of your project.
+
+### Run `docker-shell.sh` or `docker-shell.bat`
+Based on your OS, run the startup script to make building & running the container easy
+
+- Make sure you are inside the `data-versioning` folder and open a terminal at this location
+- Run `sh docker-shell.sh` or `docker-shell.bat` for windows
+
+This will run a container that has DVC already installed. You can verify the containers running by `docker container ls` on another terminal prompt. You should see something like this:
+```
+CONTAINER ID   IMAGE                             COMMAND                  CREATED              STATUS              PORTS                                                      NAMES
+00d808ab0386   data-label-cli                    "pipenv shell"           About a minute ago   Up About a minute                                                              data-labeling-data-label-cli-run
+4ab1ec940b4a   heartexlabs/label-studio:latest   "./deploy/docker-ent…"   2 days ago           Up 2 days           0.0.0.0:8080->8080/tcp                                     data-label-studio
+e87e8c6f180f   data-version-cli                  "pipenv shell"           5 seconds ago        Up 5 seconds                                                                   data-version-cli
+```
 
 By the end of this tutorial your folder structure should look like this:
 ```
