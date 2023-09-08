@@ -12,9 +12,6 @@ from label_studio_sdk import Client
 GCS_BUCKET_NAME = os.environ["GCS_BUCKET_NAME"]
 LABEL_STUDIO_URL = os.environ["LABEL_STUDIO_URL"]
 
-API_KEY = "bcc79f6a249c5b482d441018af20e952798db2b4"  # Get your API key from User > Account & Settings > Access Token
-AUTH_HEADER = {"Authorization": f"Token {API_KEY}"}
-
 
 def set_cors_configuration():
     """Set a bucket's CORS policies configuration."""
@@ -70,11 +67,11 @@ def view_bucket_metadata():
     print(f"Labels: {bucket.labels}")
 
 
-def get_projects(API_KEY):
+def get_projects(api_key):
     print("get_projects")
 
     # Examples using SDK: https://labelstud.io/sdk/project.html#label_studio_sdk.project.Project
-    label_studio_client = Client(url=LABEL_STUDIO_URL, api_key=API_KEY)
+    label_studio_client = Client(url=LABEL_STUDIO_URL, api_key=api_key)
     label_studio_client.check_connection()
 
     projects = label_studio_client.get_projects()
@@ -86,11 +83,11 @@ def get_projects(API_KEY):
     print(project)
 
 
-def get_project_tasks(API_KEY):
+def get_project_tasks(api_key):
     print("get_project_tasks")
 
     # Examples using SDK: https://labelstud.io/sdk/project.html#label_studio_sdk.project.Project
-    label_studio_client = Client(url=LABEL_STUDIO_URL, api_key=API_KEY)
+    label_studio_client = Client(url=LABEL_STUDIO_URL, api_key=api_key)
     label_studio_client.check_connection()
 
     projects = label_studio_client.get_projects()
