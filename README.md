@@ -94,7 +94,7 @@ In this step we will assume we have already collected some data for the mushroom
 
 ### Create GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
-- Create a bucket `mushroom-app-data-demo` (replace with your bucket name)
+- Create a bucket `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
 - Create a folder `mushrooms_unlabeled` inside the bucket
 - Create a folder `mushrooms_labeled` inside the bucket
 
@@ -106,7 +106,7 @@ In this step we will assume we have already collected some data for the mushroom
 ### Run `docker-shell.sh` or `docker-shell.bat`
 Based on your OS, run the startup script to make building & running the container easy
 
-- Make sure you are in the `data-labeling` folder and open a terminal at this location
+- Make sure you are inside the `data-labeling` folder and open a terminal at this location
 - Run `sh docker-shell.sh` or `docker-shell.bat` for windows
 
 This will run two container. The label studio container and a CLI container that can call API's to label studio
