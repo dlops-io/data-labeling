@@ -152,7 +152,7 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
 - Then in the popup for storage details:
     - Storage Type: `Google Cloud Storage`
     - Storage Title: `Mushroom Images`
-    - Bucket Name: `mushroom-app-data-demo` (replace with your bucket name)
+    - Bucket Name: `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
     - Bucket Prefix: `mushrooms_labeled`
     - Ignore: Google Application Credentials
     - Ignore: Google Project ID
@@ -174,32 +174,28 @@ Go into the newly create project and you should see the images automatically pul
 
 ### View Annotations in GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
-- Go into the `mushroom-app-data` (replace with your bucket name) and then into the folder `mushrooms_labeled`
+- Go into the `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME) and then into the folder `mushrooms_labeled`
 - You should see some json files corresponding to the images in the `mushrooms_unlabeled` that have been annotated
+- Open a json file to see what the annotations look like
 
 
 ### View Annotations using CLI
+- Get the API key from Label studio for programatic access to data
+- Go to User Profile > Account & Settings
+- You can copy the Access Token from this screen
+- Use this token as the -k argument in the following command line calls
 - Go to the shell where ran the docker containers
-- Open `data-labeling` folder in VSCode 
-- Uncomment the function call:
-    ```
-    # Get projects from label studio using API
-    await get_projects()
-    ```
-- Run `python -m cli`
-- Uncomment the function call:
-    ```
-    # View Annotation Tasks
-    await get_project_tasks(1)
-    ```
-- Run `python -m cli`
+- Run `python cli.py -p -k` followed by your Access Token
+- Run `python cli.py -m -k` followed by your Access Token
 
-You will see the json output of the annotations for each image that is being stored in Label Studio
+You will see the some json output of the annotations for each image that is being stored in Label Studio
 ```
 Annotations: [{'id': 5, 'created_username': ' pavlos@seas.harvard.edu, 1', 'created_ago': '1\xa0hour, 53\xa0minutes', 'completed_by': 1, 'result': [{'value': {'choices': ['amanita']}, 'id': 'qHjUzqXO6W', 'from_name': 'choice', 'to_name': 'image', 'type': 'choices', 'origin': 'manual'}], 'was_cancelled': False, 'ground_truth': False, 'created_at': '2023-09-06T17:33:08.558474Z', 'updated_at': '2023-09-06T17:33:08.558492Z', 'draft_created_at': None, 'lead_time': 5.981, 'import_id': None, 'last_action': None, 'task': 1, 'project': 1, 'updated_by': 1, 'parent_prediction': None, 'parent_annotation': None, 'last_created_by': None}]
 
 Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'created_ago': '1\xa0hour, 55\xa0minutes', 'completed_by': 1, 'result': [{'value': {'choices': ['amanita']}, 'id': 'Hp3wZORhBI', 'from_name': 'choice', 'to_name': 'image', 'type': 'choices', 'origin': 'manual'}], 'was_cancelled': False, 'ground_truth': False, 'created_at': '2023-09-06T17:31:04.307102Z', 'updated_at': '2023-09-06T17:31:04.307117Z', 'draft_created_at': None, 'lead_time': 11.197, 'import_id': None, 'last_action': None, 'task': 2, 'project': 1, 'updated_by': 1, 'parent_prediction': None, 'parent_annotation': None, 'last_created_by': None}]
 ```
+
+### 🎉 Congratulations we just setup Label Studio and was able to annotate some data with it
 
 ## Mushroom App: Data Versioning
 In this tutorial we will setup a data versioning pipeline step for the mushroom app. We will use Docker to run everything inside containers.
