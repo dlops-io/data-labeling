@@ -64,7 +64,7 @@ services:
             - ../data-labeling:/app
         environment:
             GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json 
-            GCP_PROJECT: "ac215-project" [CHANGE TO YOUR GCP PROJECT]
+            GCP_PROJECT: "ac215-project" [REPLACE WITH YOUR GCP PROJECT]
             GCP_ZONE: "us-central1-a"
         depends_on:
             - data-label-studio
@@ -78,10 +78,10 @@ services:
             - ../secrets:/secrets
         environment:
             LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK: "true"
-            LABEL_STUDIO_USERNAME: "pavlos@seas.harvard.edu" [CHANGE TO YOUR EMAIL]
+            LABEL_STUDIO_USERNAME: "pavlos@seas.harvard.edu" [REPLACE WITH YOUR EMAIL]
             LABEL_STUDIO_PASSWORD: "awesome" [CHANGE IF NECESSARY]
             GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json
-            GCP_PROJECT: "ac215-project" [CHANGE TO YOUR GCP PROJECT]
+            GCP_PROJECT: "ac215-project" [REPLACE WITH YOUR GCP PROJECT]
             GCP_ZONE: "us-central1-a"
 ```
 
@@ -212,6 +212,8 @@ Your folder structure should look like this:
    |-secrets
 ```
 
+- To view all the code open `data-versioning` folder in VSCode or any IDE of choice
+
 ### Create a Data Store folder in GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
 - Go to the bucket `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
@@ -219,6 +221,20 @@ Your folder structure should look like this:
 
 ## Run DVC Container
 We will be using [DVC](https://dvc.org/) as our data versioning tool. DVC (Data Version Control) is an Open-source, Git-based data science tool. It applies version control to machine learning development, make your repo the backbone of your project.
+
+### Setup DVC Container Parameters
+In order for the DVC container to connect to our GCS Bucket open the file `docker-shell.sh` and edit some of the values to match your setup
+```
+export GCS_BUCKET_NAME="mushroom-app-data-demo" [REPLACE WITH YOUR BUCKET NAME]
+export GCP_PROJECT="ac215-project" [REPLACE WITH YOUR GCP PROJECT]
+export GCP_ZONE="us-central1-a"
+
+```
+For windows open the file `docker-shell.bat`
+```
+
+```
+
 
 ### Run `docker-shell.sh` or `docker-shell.bat`
 Based on your OS, run the startup script to make building & running the container easy
@@ -234,14 +250,78 @@ CONTAINER ID   IMAGE                             COMMAND                  CREATE
 e87e8c6f180f   data-version-cli                  "pipenv shell"           5 seconds ago        Up 5 seconds                                                                   data-version-cli
 ```
 
+### Download Labeled Data
+
+In this step we will download all the labeled data from the GCS bucket and create `v1.0` version of our dataset.
+
+- Go to the shell where ran the docker container for `data-versioning`
+- Run `python cli.py -d`
+
+If you check inside the `data-versioning` folder you should see the a `mushroom_dataset` folder with labeled images in them.
+```
+   .
+   |-mushroom_dataset
+   |---amanita
+   |---crimini
+   |---oyster
+   |-mushroom_dataset_prep
+
+```
+
+The dataset from the data labeling step will be downloaded to a local folder called `mushroom_dataset`
+
+### Ensure we do not push data files to git
+Make sure to have your gitignore to ignore the dataset folders. We do not want the dataset files going into our git repo.
+```
+/mushroom_dataset_prep
+/mushroom_dataset
+```
+
+### Version Data using DVC
+In this tep we will start tracking the dataset using DVC
+
+#### Initialize Data Registry
+In this step we create a data registry using DVC
+`dvc init`
+
+#### Add Remote Registry to GCS Bucket (For Data)
+`dvc remote add -d mushroom_dataset gs://mushroom-app-data-demo/dvc_store`
+
+#### Add the dataset to registry
+`dvc add mushroom_dataset`
+
+#### Push Data to Remote Registry
+`dvc push`
+
+You can go to your GCS Bucket folder `dvs_store` to view the tracking files
+
+
+#### Update Git to track DVC
+- First run git status `git status`
+- Add changes `git add .`
+- Commit changes `git commit -m 'dataset updates...'`
+- Add a dataset tag ``git tag -a 'dataset_v1' -m 'tag dataset'`
+- Push changes `git push --atomic origin main dataset_v1`
+
+
+### Download Data to view version
+In this Step we will use Colab to view various version of the dataset
+- Open [Colab Notebook](https://colab.research.google.com/drive/1Juthwb02SpEez1XQGPDIJ2PTTZiYVxY6?usp=sharing)
+- Follow instruction in the Colab Notebook
+
+
+
 By the end of this tutorial your folder structure should look like this:
 ```
    |-data-labeling
    |---docker-volumes
    |-----label-studio
    |-data-versioning
-   |---dataset
-   |---dataset_prep
+   |-mushroom_dataset
+   |---amanita
+   |---crimini
+   |---oyster
+   |-mushroom_dataset_prep
    |-secrets
 ```
 

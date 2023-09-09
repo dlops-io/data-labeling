@@ -130,7 +130,7 @@ if __name__ == "__main__":
         "-c",
         "--cors",
         action="store_true",
-        help="Set the CORS configuration on a bucket",
+        help="Set the CORS configuration on a GCS bucket",
     )
     parser.add_argument(
         "-m",
