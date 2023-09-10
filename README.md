@@ -252,7 +252,7 @@ e87e8c6f180f   data-version-cli                  "pipenv shell"           5 seco
 
 ### Download Labeled Data
 
-In this step we will download all the labeled data from the GCS bucket and create `v1.0` version of our dataset.
+In this step we will download all the labeled data from the GCS bucket and create `dataset_v1` version of our dataset.
 
 - Go to the shell where ran the docker container for `data-versioning`
 - Run `python cli.py -d`
@@ -278,7 +278,7 @@ Make sure to have your gitignore to ignore the dataset folders. We do not want t
 ```
 
 ### Version Data using DVC
-In this tep we will start tracking the dataset using DVC
+In this step we will start tracking the dataset using DVC
 
 #### Initialize Data Registry
 In this step we create a data registry using DVC
@@ -300,7 +300,7 @@ You can go to your GCS Bucket folder `dvs_store` to view the tracking files
 - First run git status `git status`
 - Add changes `git add .`
 - Commit changes `git commit -m 'dataset updates...'`
-- Add a dataset tag ``git tag -a 'dataset_v1' -m 'tag dataset'`
+- Add a dataset tag `git tag -a 'dataset_v1' -m 'tag dataset'`
 - Push changes `git push --atomic origin main dataset_v1`
 
 
@@ -309,6 +309,39 @@ In this Step we will use Colab to view various version of the dataset
 - Open [Colab Notebook](https://colab.research.google.com/drive/1Juthwb02SpEez1XQGPDIJ2PTTZiYVxY6?usp=sharing)
 - Follow instruction in the Colab Notebook
 
+## Make changes to data
+
+### Use Label Studio to annotate some more data
+
+- Go to Label Studio App at `http://localhost:8080/`
+- Click on an item in the grid to annotate using the UI
+- Repeat for a few of the images
+
+### Download newly Labeled Data
+
+In this step we will download the labeled data from the GCS bucket and create `dataset_v2` version of our dataset.
+
+- Go to the shell where ran the docker container for `data-versioning`
+- Run `python cli.py -d`
+
+#### Add the dataset to registry
+`dvc add mushroom_dataset`
+
+#### Push Data to Remote Registry
+`dvc push`
+
+#### Update Git to track DVC changes
+- First run git status `git status`
+- Add changes `git add .`
+- Commit changes `git commit -m 'dataset updates...'`
+- Add a dataset tag `git tag -a 'dataset_v2' -m 'tag dataset'`
+- Push changes `git push --atomic origin main dataset_v2`
+
+
+### Download Data to view version
+In this Step we will use Colab to view various version of the dataset
+- Open [Colab Notebook](https://colab.research.google.com/drive/1Juthwb02SpEez1XQGPDIJ2PTTZiYVxY6?usp=sharing)
+- Follow instruction in the Colab Notebook to view `dataset_v2`
 
 
 By the end of this tutorial your folder structure should look like this:
@@ -324,6 +357,8 @@ By the end of this tutorial your folder structure should look like this:
    |-mushroom_dataset_prep
    |-secrets
 ```
+
+### 🎉 Congratulations we just setup and tested data versioning using DVC
 
 ## Docker Cleanup
 To make sure we do not have any running containers and clear up an unused images
