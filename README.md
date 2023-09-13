@@ -1,5 +1,8 @@
 # Mushroom App: Data Labeling & Versioning Demo
 
+In this tutorial we will build a data pipeline flow as show:
+<img src="pipeline-flow.png"  width="600">
+
 ## Prerequisites
 * Have Docker installed
 * Cloned this repository to your local machine with a terminal up and running
