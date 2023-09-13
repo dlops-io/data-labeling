@@ -172,6 +172,9 @@ Go into the newly create project and you should see the images automatically pul
 - Click on an item in the grid to annotate using the UI
 - Repeat for a few of the images
 
+Here are some examples of mushrooms and their labels:
+![Mushroom Labels](mushroom-labels.png)
+
 ### View Annotations in GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
 - Go into the `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME) and then into the folder `mushrooms_labeled`
@@ -185,8 +188,8 @@ Go into the newly create project and you should see the images automatically pul
 - You can copy the Access Token from this screen
 - Use this token as the -k argument in the following command line calls
 - Go to the shell where ran the docker containers
-- Run `python cli.py -p -k` followed by your Access Token
-- Run `python cli.py -m -k` followed by your Access Token
+- Run `python cli.py -p -k` followed by your Access Token. This will list out your projects
+- Run `python cli.py -t -k` followed by your Access Token. This will list some tasks from the first project
 
 You will see the some json output of the annotations for each image that is being stored in Label Studio
 ```
@@ -339,7 +342,7 @@ In this step we will download the labeled data from the GCS bucket and create `d
 
 
 ### Download Data to view version
-In this Step we will use Colab to view various version of the dataset
+In this Step we will use Colab to view the new version of the dataset
 - Open [Colab Notebook](https://colab.research.google.com/drive/1Juthwb02SpEez1XQGPDIJ2PTTZiYVxY6?usp=sharing)
 - Follow instruction in the Colab Notebook to view `dataset_v2`
 
