@@ -1,7 +1,7 @@
 # Mushroom App: Data Labeling & Versioning Demo
 
 In this tutorial we will build a data pipeline flow as show:
-<img src="pipeline-flow.png"  width="600">
+<img src="pipeline-flow.png"  width="800">
 
 ## Prerequisites
 * Have Docker installed
@@ -176,7 +176,7 @@ Go into the newly create project and you should see the images automatically pul
 - Repeat for a few of the images
 
 Here are some examples of mushrooms and their labels:
-![Mushroom Labels](mushroom-labels.png)
+<img src="mushroom-labels.png"  width="800">
 
 ### View Annotations in GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
