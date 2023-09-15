@@ -49,7 +49,8 @@ Your folder structure should look like this:
 ### Attach GCP Credentials to Container
 - To setup GCP Credentials in a container we need to set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` inside the container to the path of the secrets file from the previous step
 
-- Update `docker-shell.sh` or `docker-shell.bat` to add the new environment variable
+- We do this by setting the `GOOGLE_APPLICATION_CREDENTIALS` to `/secrets/data-service-account.json` in the docker compose file
+- Make sure the `GCP_PROJECT` matches your GCP Project
 
 `docker-compose.yml`
 ```
