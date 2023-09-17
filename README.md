@@ -164,7 +164,7 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
 - `Save` your changes
 
 ### Enable cross-origin resource sharing (CORS)
-In odder to view images in Label studio directly from GCS Bucket, we need to enable CORS
+In order to view images in Label studio directly from GCS Bucket, we need to enable CORS
 - Go to the shell where we ran the docker containers
 - Run `python cli.py -c`
 - To view the CORs settings, run `python cli.py -m`
