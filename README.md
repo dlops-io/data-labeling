@@ -23,8 +23,9 @@ If you already have a preferred text editor, skip this step.
 ## Mushroom App: Data Labeling
 In this tutorial we will setup a data labeling web app to label data for the mushroom app. We will use Docker to run everything inside containers.
 
-### Clone the github repository
-- Clone or download from [here](https://github.com/dlops-io/data-labeling)
+**In order to complete this tutorial you will need your own GCP account setup and your github repo.**
+### Fork the github repository
+- Fork or download from [here](https://github.com/dlops-io/data-labeling)
 
 ## Setup GCP Credentials
 Next step is to enable our container to have access to GCP Storage buckets. 
@@ -207,8 +208,8 @@ Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'crea
 ## Mushroom App: Data Versioning
 In this tutorial we will setup a data versioning step for the mushroom app pipeline. We will use Docker to run everything inside containers.
 
-### Clone the github repository
-- Clone or download from [here](https://github.com/dlops-io/data-versioning)
+### Fork the github repository
+- Fork or download from [here](https://github.com/dlops-io/data-versioning)
 
 Your folder structure should look like this:
 ```
