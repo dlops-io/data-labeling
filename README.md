@@ -42,9 +42,9 @@ Your folder structure should look like this:
 
 ### Setup GCP Service Account
 - Here are the step to create a service account:
-- To setup a service account you will need to go to [GCP Console](https://console.cloud.google.com/home/dashboard), search for  "Service accounts" from the top search box. or go to: "IAM & Admins" > "Service accounts" from the top-left menu and create a new service account called "data-service-account". For "Service account permissions" select "Cloud Storage" > "Storage Admin". Then click done.
+- To setup a service account you will need to go to [GCP Console](https://console.cloud.google.com/home/dashboard), search for  "Service accounts" from the top search box. or go to: "IAM & Admins" > "Service accounts" from the top-left menu and create a new service account called "data-service-account". For "Service account permissions" select "Cloud Storage" > "Storage Admin" (Type "cloud storage" in filter and scroll down till you find). Then click continue and done.
 - This will create a service account
-- On the right "Actions" column click the vertical ... and select "Create key". A prompt for Create private key for "data-service-account" will appear select "JSON" and click create. This will download a Private key json file to your computer. Copy this json file into the **secrets** folder. Rename the json file to `data-service-account.json`
+- On the right "Actions" column click the vertical ... and select "Manage keys". A prompt for Create private key for "data-service-account" will appear select "JSON" and click create. This will download a Private key json file to your computer. Copy this json file into the **secrets** folder. Rename the json file to `data-service-account.json`
 
 
 ### Attach GCP Credentials to Container
@@ -165,7 +165,7 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
 - `Save` your changes
 
 ### Enable cross-origin resource sharing (CORS)
-In odder to view images in Label studio directly from GCS Bucket, we need to enable CORS
+In order to view images in Label studio directly from GCS Bucket, we need to enable CORS
 - Go to the shell where we ran the docker containers
 - Run `python cli.py -c`
 - To view the CORs settings, run `python cli.py -m`
