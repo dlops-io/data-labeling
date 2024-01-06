@@ -348,7 +348,7 @@ In this step we will download the labeled data from the GCS bucket and create `d
 
 ### Download Data to view version
 In this Step we will use Colab to view the new version of the dataset
-- Open [Colab Notebook](https://colab.research.google.com/drive/1Juthwb02SpEez1XQGPDIJ2PTTZiYVxY6?usp=sharing)
+- Open [Colab Notebook](https://colab.research.google.com/drive/1UXfp9IDnzczGYTQ_tMLGsrrKH5F397_S?usp=sharing)
 - Follow instruction in the Colab Notebook to view `dataset_v2`
 
 
