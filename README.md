@@ -314,7 +314,7 @@ You can go to your GCS Bucket folder `dvs_store` to view the tracking files
 
 ### Download Data to view version
 In this Step we will use Colab to view various version of the dataset
-- Open [Colab Notebook](https://colab.research.google.com/drive/1Juthwb02SpEez1XQGPDIJ2PTTZiYVxY6?usp=sharing)
+- Open [Colab Notebook](https://colab.research.google.com/drive/1UXfp9IDnzczGYTQ_tMLGsrrKH5F397_S?usp=sharing)
 - Follow instruction in the Colab Notebook
 
 ## Make changes to data
