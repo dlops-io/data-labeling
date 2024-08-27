@@ -1,4 +1,4 @@
-# Cheese App: Data Labeling & Versioning Demo
+# Mushroom App: Data Labeling & Versioning Demo
 
 In this tutorial we will build a data pipeline flow as shown:
 <img src="pipeline-flow.png"  width="800">
@@ -6,12 +6,22 @@ In this tutorial we will build a data pipeline flow as shown:
 ## Prerequisites
 * Have Docker installed
 * Cloned this repository to your local machine with a terminal up and running
+* Check that your Docker is running with the following command
+
+`docker run hello-world`
+
+### Install Docker 
+Install `Docker Desktop`
 
 #### Ensure Docker Memory
 - To make sure we can run multiple container go to Docker>Preferences>Resources and in "Memory" make sure you have selected > 4GB
 
-## Cheese App: Data Labeling
-In this tutorial we will setup a data labeling web app to label data for the cheese app. We will use Docker to run everything inside containers.
+### Install VSCode  
+Follow the [instructions](https://code.visualstudio.com/download) for your operating system.  
+If you already have a preferred text editor, skip this step.  
+
+## Mushroom App: Data Labeling
+In this tutorial we will setup a data labeling web app to label data for the mushroom app. We will use Docker to run everything inside containers.
 
 **In order to complete this tutorial you will need your own GCP account setup and your github repo.**
 ### Fork the github repository
@@ -81,20 +91,20 @@ services:
 ```
 
 ## Prepare Dataset
-In this step we will assume we have already collected some data for the cheese app. The images are of various cheeses belonging to either `brie`, `gouda`, `gruyere`, `parmigiano` type. None of the images are labeled and our task here is to use label studio to manage labeling of images.
+In this step we will assume we have already collected some data for the mushroom app. The images are of various mushrooms belonging to either `amanita`, `crimini`, or `oyster` type. None of the images are labeled and our task here is to use label studio to manage labeling of images.
 
 ### Download data
-- Download the unlabeled data from [here](https://github.com/dlops-io/datasets/releases/download/v3.0/cheeses_unlabeled.zip)
+- Download the unlabeled data from [here](https://github.com/dlops-io/datasets/releases/download/v3.0/mushrooms_unlabeled.zip)
 - Extract the zip file
 
 ### Create GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
-- Create a bucket `cheese-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
-- Create a folder `cheeses_unlabeled` inside the bucket
-- Create a folder `cheeses_labeled` inside the bucket
+- Create a bucket `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
+- Create a folder `mushrooms_unlabeled` inside the bucket
+- Create a folder `mushrooms_labeled` inside the bucket
 
 ### Upload data to Bucket
-- Upload the images from your local folder into the folder `cheeses_unlabeled` inside the bucket
+- Upload the images from your local folder into the folder `mushrooms_unlabeled` inside the bucket
 
 ## Run Label Studio Container
 
@@ -115,7 +125,7 @@ CONTAINER ID   IMAGE                             COMMAND                  CREATE
 ## Setup Label Studio
 
 ### Create Annotation Project
-Here we will setup the Label Studio App to user our cheese images so we can annotate them. 
+Here we will setup the Label Studio App to user our mushroom images so we can annotate them. 
 - Run the Label Studio App by going to `http://localhost:8080/`
 - Login with `pavlos@seas.harvard.edu` / `awesome`, use the credentials in the docker compose file that you used
 - Click `Create Project` to create a new project
@@ -132,9 +142,9 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
 - Click `Add Source Storage`
 - Then in the popup for storage details:
     - Storage Type: `Google Cloud Storage`
-    - Storage Title: `Cheese Images`
-    - Bucket Name: `cheese-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
-    - Bucket Prefix: `cheeses_unlabeled`
+    - Storage Title: `Mushroom Images`
+    - Bucket Name: `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
+    - Bucket Prefix: `mushrooms_unlabeled`
     - File Filter Regex: `.*`
     - Enable: Treat every bucket object as a source file
     - Enable: Use pre-signed URLs
@@ -146,9 +156,9 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
 - Click `Add Target Storage`
 - Then in the popup for storage details:
     - Storage Type: `Google Cloud Storage`
-    - Storage Title: `Cheese Images`
-    - Bucket Name: `cheese-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
-    - Bucket Prefix: `cheeses_labeled`
+    - Storage Title: `Mushroom Images`
+    - Bucket Name: `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
+    - Bucket Prefix: `mushrooms_labeled`
     - Ignore: Google Application Credentials
     - Ignore: Google Project ID
 - You can `Check Connection` to make sure your connection works
@@ -167,13 +177,13 @@ Go into the newly create project and you should see the images automatically pul
 - Click on an item in the grid to annotate using the UI
 - Repeat for a few of the images
 
-Here are some examples of cheeses and their labels:
-<img src="cheeses-labels.png"  width="500">
+Here are some examples of mushrooms and their labels:
+<img src="mushroom-labels.png"  width="500">
 
 ### View Annotations in GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
-- Go into the `cheese-app-data-demo` (REPLACE WITH YOUR BUCKET NAME) and then into the folder `cheeses_labeled`
-- You should see some json files corresponding to the images in the `cheeses_unlabeled` that have been annotated
+- Go into the `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME) and then into the folder `mushrooms_labeled`
+- You should see some json files corresponding to the images in the `mushrooms_unlabeled` that have been annotated
 - Open a json file to see what the annotations look like
 
 
@@ -195,8 +205,8 @@ Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'crea
 
 ### 🎉 Congratulations we just setup Label Studio and was able to annotate some data with it
 
-## Cheese App: Data Versioning
-In this tutorial we will setup a data versioning step for the cheese app pipeline. We will use Docker to run everything inside containers.
+## Mushroom App: Data Versioning
+In this tutorial we will setup a data versioning step for the mushroom app pipeline. We will use Docker to run everything inside containers.
 
 ### Fork the github repository
 - Fork or download from [here](https://github.com/dlops-io/data-versioning)
@@ -214,7 +224,7 @@ Your folder structure should look like this:
 
 ### Create a Data Store folder in GCS Bucket
 - Go to `https://console.cloud.google.com/storage/browser`
-- Go to the bucket `cheese-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
+- Go to the bucket `mushroom-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
 - Create a folder `dvc_store` inside the bucket
 
 ## Run DVC Container
@@ -223,7 +233,7 @@ We will be using [DVC](https://dvc.org/) as our data versioning tool. DVC (Data 
 ### Setup DVC Container Parameters
 In order for the DVC container to connect to our GCS Bucket open the file `docker-shell.sh` and edit some of the values to match your setup
 ```
-export GCS_BUCKET_NAME="cheese-app-data-demo" [REPLACE WITH YOUR BUCKET NAME]
+export GCS_BUCKET_NAME="mushroom-app-data-demo" [REPLACE WITH YOUR BUCKET NAME]
 export GCP_PROJECT="ac215-project" [REPLACE WITH YOUR GCP PROJECT]
 export GCP_ZONE="us-central1-a"
 
@@ -255,24 +265,24 @@ In this step we will download all the labeled data from the GCS bucket and creat
 - Go to the shell where ran the docker container for `data-versioning`
 - Run `python cli.py -d`
 
-If you check inside the `data-versioning` folder you should see the a `cheese_dataset` folder with labeled images in them.
+If you check inside the `data-versioning` folder you should see the a `mushroom_dataset` folder with labeled images in them.
 ```
    .
-   |-cheese_dataset
+   |-mushroom_dataset
    |---amanita
    |---crimini
    |---oyster
-   |-cheese_dataset_prep
+   |-mushroom_dataset_prep
 
 ```
 
-The dataset from the data labeling step will be downloaded to a local folder called `cheese_dataset`
+The dataset from the data labeling step will be downloaded to a local folder called `mushroom_dataset`
 
 ### Ensure we do not push data files to git
 Make sure to have your gitignore to ignore the dataset folders. We do not want the dataset files going into our git repo.
 ```
-/cheese_dataset_prep
-/cheese_dataset
+/mushroom_dataset_prep
+/mushroom_dataset
 ```
 
 ### Version Data using DVC
@@ -283,10 +293,10 @@ In this step we create a data registry using DVC
 `dvc init`
 
 #### Add Remote Registry to GCS Bucket (For Data)
-`dvc remote add -d cheese_dataset gs://cheese-app-data-demo/dvc_store`
+`dvc remote add -d mushroom_dataset gs://mushroom-app-data-demo/dvc_store`
 
 #### Add the dataset to registry
-`dvc add cheese_dataset`
+`dvc add mushroom_dataset`
 
 #### Push Data to Remote Registry
 `dvc push`
@@ -323,7 +333,7 @@ In this step we will download the labeled data from the GCS bucket and create `d
 - Run `python cli.py -d`
 
 #### Add the dataset to registry
-`dvc add cheese_dataset`
+`dvc add mushroom_dataset`
 
 #### Push Data to Remote Registry
 `dvc push`
@@ -348,11 +358,11 @@ By the end of this tutorial your folder structure should look like this:
    |---docker-volumes
    |-----label-studio
    |-data-versioning
-   |-cheese_dataset
+   |-mushroom_dataset
    |---amanita
    |---crimini
    |---oyster
-   |-cheese_dataset_prep
+   |-mushroom_dataset_prep
    |-secrets
 ```
 
