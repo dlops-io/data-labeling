@@ -84,7 +84,7 @@ services:
 In this step we will assume we have already collected some data for the cheese app. The images are of various cheeses belonging to either `brie`, `gouda`, `gruyere`, `parmigiano` type. None of the images are labeled and our task here is to use label studio to manage labeling of images.
 
 ### Download data
-- Download the unlabeled data from [here](https://github.com/dlops-io/datasets/releases/download/v3.0/cheeses_unlabeled.zip)
+- Download the unlabeled data from [here](https://github.com/dlops-io/datasets/releases/download/v4.0/cheeses_unlabeled.zip)
 - Extract the zip file
 
 ### Create GCS Bucket
