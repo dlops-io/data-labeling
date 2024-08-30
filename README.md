@@ -115,6 +115,9 @@ CONTAINER ID   IMAGE                             COMMAND                  CREATE
 ```
 
 
+
+
+
 ## Setup Label Studio
 
 ### Create Annotation Project
@@ -198,7 +201,19 @@ Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'crea
 
 ### 🎉 Congratulations we just setup Label Studio and was able to annotate some data with it
 
-## Cheese App: Data Versioning
+
+
+
+
+---
+
+---
+
+---
+
+
+
+## Tutorial (T7)  Cheese App: Data Versioning
 In this tutorial we will setup a data versioning step for the cheese app pipeline. We will use Docker to run everything inside containers.
 
 ### Fork the github repository
