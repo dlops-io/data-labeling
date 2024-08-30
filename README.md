@@ -1,11 +1,11 @@
-# Cheese App: Data Labeling & Versioning Demo
+# Tutorial (T6) Cheese App: Data Labeling & Versioning Demo
 
 In this tutorial we will build a data pipeline flow as shown:
 <img src="pipeline-flow.png"  width="800">
 
 ## Prerequisites
 * Have Docker installed
-* Cloned this repository to your local machine with a terminal up and running
+* Cloned this repository to your local machine https://github.com/dlops-io/data-labeling
 
 #### Ensure Docker Memory
 - To make sure we can run multiple container go to Docker>Preferences>Resources and in "Memory" make sure you have selected > 4GB
@@ -16,6 +16,8 @@ In this tutorial we will setup a data labeling web app to label data for the che
 **In order to complete this tutorial you will need your own GCP account setup and your github repo.**
 ### Fork the github repository
 - Fork or download from [here](https://github.com/dlops-io/data-labeling)
+[PP: WHY FORM .... I thought above we tell them to clone]
+
 
 ## Setup GCP Credentials
 Next step is to enable our container to have access to GCP Storage buckets. 
@@ -60,6 +62,7 @@ services:
         environment:
             GOOGLE_APPLICATION_CREDENTIALS: /secrets/data-service-account.json 
             GCP_PROJECT: "ac215-project" [REPLACE WITH YOUR GCP PROJECT]
+            GCS_BUCKET_NAME: "cheese-app-data-demo" [REPLACE WITH YOUR BUCKET NAME]
             GCP_ZONE: "us-central1-a"
         depends_on:
             - data-label-studio
@@ -122,7 +125,7 @@ Here we will setup the Label Studio App to user our cheese images so we can anno
 - Give it a project name
 - Skip `Data Import` tab and go to `Labeling Setup`
 - Select Template: Computer Vision > Image Classification
-- Remove the default label choices and add: `amanita`, `crimini`, `oyster`
+- Remove the default label choices and add: `brie`, `gouda`, `gruyere`, `parmigiano`
 - Save
 
 ### Configure Cloud Storage
