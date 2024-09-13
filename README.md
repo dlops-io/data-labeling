@@ -14,9 +14,6 @@ In this tutorial we will build a data pipeline flow as shown:
 In this tutorial we will setup a data labeling web app to label data for the cheese app. We will use Docker to run everything inside containers.
 
 **In order to complete this tutorial you will need your own GCP account setup and your github repo.**
-### Fork the github repository
-- Fork or download from [here](https://github.com/dlops-io/data-labeling)
-[PP: WHY FORM .... I thought above we tell them to clone]
 
 
 ## Setup GCP Credentials
@@ -42,6 +39,7 @@ Your folder structure should look like this:
 ### Attach GCP Credentials to Container
 - To setup GCP Credentials in a container we need to set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` inside the container to the path of the secrets file from the previous step
 
+[PP: I AM THINKING TO DO IT WITH TWO CONTAINERS FIRST]
 - We do this by setting the `GOOGLE_APPLICATION_CREDENTIALS` to `/secrets/data-service-account.json` in the docker compose file
 - Make sure the `GCP_PROJECT` matches your GCP Project
 
