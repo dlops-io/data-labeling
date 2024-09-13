@@ -1,6 +1,7 @@
 # Tutorial (T6) Cheese App: Data Labeling 
 
 In this tutorial we will build a data pipeline flow as shown:
+[PP: CHANGE THIS] 
 <img src="pipeline-flow.png"  width="800">
 
 ## Prerequisites
