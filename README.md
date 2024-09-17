@@ -19,7 +19,7 @@ And of course, we will run Label Studio within a container to keep the setup iso
 
 ## Cheese App: Data Labeling
 
-In this tutorial, we will set up a data labeling (Label Studio) web app for the cheese app. The entire environment will run inside containers using Docker. Since the app is accessed through a web browser, it’s more convenient to run the container on your laptop.
+In this tutorial, we will set up a data labeling (Label Studio) web app for the cheese app. The entire environment will run inside containers using Docker. Since the app is accessed through a web browser, it's more convenient to run the container on your laptop.
 
 **In order to complete this tutorial you will need your own GCP account setup.**
 
@@ -41,16 +41,19 @@ Your folder structure should look like this:
 
 ### Setup GCP Service Account
 
-- To set up a service account, go to the [GCP Console](https://console.cloud.google.com/home/dashboard), search for “Service accounts” in the top search box, or navigate to “IAM & Admin” > “Service accounts” from the top-left menu. Create a new service account called “data-service-account.” For “Service account permissions,” select “Cloud Storage” > “Storage Admin” (type “cloud storage” in the filter and scroll down until you find it). Then click continue and done.
+- To set up a service account, go to the [GCP Console](https://console.cloud.google.com/home/dashboard), search for "Service accounts" in the top search box, or navigate to "IAM & Admin" > "Service accounts" from the top-left menu. 
+- Create a new service account called "data-service-account." 
+- In "Grant this service account access to project" select "Cloud Storage" > "Storage Admin".
 - This will create a service account.
-- In the “Actions” column on the right, click the vertical … and select “Manage keys.” A prompt for “Create private key for ‘data-service-account’” will appear. Select “JSON” and click create. This will download a private key JSON file to your computer. Copy this JSON file into the **secrets** folder and rename it to `data-service-account.json`.
+- Click in service account and navigate to the tab "KEYS"
+- Click in the button "ADD Key (Create New Key)" and Select "JSON". This will download a private key JSON file to your computer. 
+- Copy this JSON file into the **secrets** folder and rename it to `data-service-account.json`.
 
 ### Attaching GCP Credentials to the Container
 
 - To configure GCP credentials within a container, we need to set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to point to the path of the secrets file. 
 - This is done by setting `GOOGLE_APPLICATION_CREDENTIALS` to `/secrets/data-service-account.json` when running the container. 
-
-- This is handled in the docker-shell scripts.
+- This is handled in the docker-shell scripts (You do not have to do anything here).
 
 ## Prepare Dataset
 
@@ -64,7 +67,7 @@ In this step we will assume we have already collected some data for the cheese a
 ### Create GCS Bucket
 
 - Go to `https://console.cloud.google.com/storage/browser`
-- Create a bucket `cheese-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
+- Create a bucket `cheese-app-data-demo` (REPLACE WITH YOUR BUCKET NAME). Keep the defaults
 - Create a folder `cheeses_unlabeled` inside the bucket
 - Create a folder `cheeses_labeled` inside the bucket
 
@@ -74,7 +77,7 @@ In this step we will assume we have already collected some data for the cheese a
 
 ## Run Label Studio Container
 
-We will be using a pre-built container from DockerHub, heartexlabs/label-studio:latest, so there’s no need to build the image—just run it. We’ll configure the network ports, set `GOOGLE_APPLICATION_CREDENTIALS`, and adjust a few other environment variables. For more details, refer to the `docker-shell.sh` script.
+We will be using a pre-built container from DockerHub, `heartexlabs/label-studio:latest`, so there's no need to build the image—just run it. We'll configure the network ports, set `GOOGLE_APPLICATION_CREDENTIALS`, and adjust a few other environment variables. For more details, refer to the `docker-shell.sh` script.
 
 ### Run `docker-shell.sh` or `docker-shell.bat`
 
@@ -83,7 +86,7 @@ Based on your OS, run the startup script to running the container easy
 - Make sure you are inside the `data-labeling` folder and open a terminal at this location
 - Run `sh docker-shell.sh` or `docker-shell.bat` for windows
 
-This will run our Label Studio container in the background. Note that you won’t see an interactive window, as we’ll be interacting with Label Studio through a browser.
+This will run our Label Studio container in the background. Note that you won't see an interactive window, as we'll be interacting with Label Studio through a browser.
 
 To verify that the container is running, open another terminal and run docker container ls. You should see something similar to this:
 
@@ -105,9 +108,9 @@ Here we will setup the Label Studio App to user our cheese images so we can anno
 - Run the Label Studio App by going to `http://localhost:8080/`
 - Login with `pavlos@seas.harvard.edu` / `awesome`, use the credentials in the docker compose file that you used
 - Click `Create Project` to create a new project
-- Give it a project name
+- Give it a project name and save it
 - Skip `Data Import` tab and go to `Labeling Setup`
-- Select Template: Computer Vision > Image Classification
+- Select Template: `Computer Vision > Image Classification`
 - Remove the default label choices and add: `brie`, `gouda`, `gruyere`, `parmigiano`
 - Save
 
@@ -129,9 +132,10 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
   - Ignore: Google Application Credentials
   - Ignore: Google Project ID
 - You can `Check Connection` to make sure your connection works
-- `Save` your changes
+- Click `Add Storage` to save your changes
 - Click `Sync Storage` to start syncing from the bucket to label studio
-- Click `Add Target Storage`
+
+- Click `Add Target Storage` 
 - Then in the popup for storage details:
   - Storage Type: `Google Cloud Storage`
   - Storage Title: `Cheese Images`
@@ -140,37 +144,34 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
   - Ignore: Google Application Credentials
   - Ignore: Google Project ID
 - You can `Check Connection` to make sure your connection works
-- `Save` your changes
+- Click `Add Target Storage` to save your changes
 
 ### Enable cross-origin resource sharing (CORS)
 
-At this point, you will notice that you can’t access the images and instead receive an error message related to CORS.
+At this point, you will notice that you can't access the images and instead receive an error message related to CORS.
 
-In addition to authentication, GCP buckets restrict access from domains that can’t be resolved via reverse DNS lookup. Since we are running Label Studio on localhost, GCP blocks access due to these default restrictions.
+In addition to authentication, GCP buckets restrict access from domains that can't be resolved via reverse DNS lookup. Since we are running Label Studio on localhost, GCP blocks access due to these default restrictions.
 
 CORS, or **Cross-Origin Resource Sharing**, controls which domains can access resources from a different domain. In this case, we need to allow localhost (or from anywhere) to access the GCP bucket.
 
-Unfortunately, there’s no direct way to configure CORS for this use case through the GCP web interface—it must be done programmatically.
+Unfortunately, there's no direct way to configure CORS for this use case through the GCP web interface—it must be done programmatically.
 
 As a result, we need to set up another container to handle the CORS configuration.
 
 Luckily, our senior engineers have set up things for you. 
 The Dockerfile, Pipfiles and docker-CLI.sh is available for you. 
 
-Run `docker-shell-CLI.sh` to enter a container where you can execute `cli.py`.
-
-- Go to the shell where we ran the docker containers
-
+- Change the bucket name in `docker-shell-CLI.sh` 
+- Run `docker-shell-CLI.sh` to enter a container where you can execute `cli.py`. 
+- Go docker container that you just run
 - Run `python cli.py -c`
-
 - To view the CORs settings, run `python cli.py -m`
 
   
 
-
 ### Annotate Data
 
-Now go back  into the newly create project in Label Studio and you should see the images automatically pulled in from the GCS Cloud Storage Bucket
+Now go back into the newly create project in Label Studio and you should see the images automatically pulled in from the GCS Cloud Storage Bucket
 
 - Click on an item in the grid to annotate using the UI
 - Repeat for a few of the images
@@ -210,12 +211,11 @@ Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'crea
 
 
 
-
 ## Extra: Using docker-compose to run both containers 
 
 You may have noticed that we run the containers one after another. Often, we need to run multiple containers sequentially or as a bundle. Docker Compose provides this functionality, allowing us to manage multiple containers easily. Refer to the lecture notes for more details.
 
-You can now stop all containers and run them together using `docker-shell-compose.sh`
+You can now stop all containers and run them together using `docker-shell-copose.sh`
 
 
 
