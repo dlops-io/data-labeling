@@ -1,8 +1,12 @@
 # Tutorial (T6) Cheese App: Data Labeling 
 
-In this tutorial we will build a data pipeline flow as shown:
+In this tutorial, we will set up Label Studio to support the workflow illustrated below:
 
 <img src="data-labeling-flow.png"  width="800">
+
+Label Studio is an open-source data labeling tool that supports multiple data types, including text, images, and audio. It allows users to create labeled datasets for machine learning models through an interactive web interface.
+
+And of course, we will run Label Studio within a container to keep the setup isolated and manageable.
 
 ## Prerequisites
 
@@ -37,10 +41,9 @@ Your folder structure should look like this:
 
 ### Setup GCP Service Account
 
-- Here are the step to create a service account:
-- To setup a service account you will need to go to [GCP Console](https://console.cloud.google.com/home/dashboard), search for  "Service accounts" from the top search box. or go to: "IAM & Admins" > "Service accounts" from the top-left menu and create a new service account called "data-service-account". For "Service account permissions" select "Cloud Storage" > "Storage Admin" (Type "cloud storage" in filter and scroll down till you find). Then click continue and done.
-- This will create a service account
-- On the right "Actions" column click the vertical ... and select "Manage keys". A prompt for Create private key for "data-service-account" will appear select "JSON" and click create. This will download a Private key json file to your computer. Copy this json file into the **secrets** folder. Rename the json file to `data-service-account.json`
+- To set up a service account, go to the [GCP Console](https://console.cloud.google.com/home/dashboard), search for “Service accounts” in the top search box, or navigate to “IAM & Admin” > “Service accounts” from the top-left menu. Create a new service account called “data-service-account.” For “Service account permissions,” select “Cloud Storage” > “Storage Admin” (type “cloud storage” in the filter and scroll down until you find it). Then click continue and done.
+- This will create a service account.
+- In the “Actions” column on the right, click the vertical … and select “Manage keys.” A prompt for “Create private key for ‘data-service-account’” will appear. Select “JSON” and click create. This will download a private key JSON file to your computer. Copy this JSON file into the **secrets** folder and rename it to `data-service-account.json`.
 
 ### Attaching GCP Credentials to the Container
 
