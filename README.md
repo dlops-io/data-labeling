@@ -19,7 +19,7 @@ And of course, we will run Label Studio within a container to keep the setup iso
 
 ## Cheese App: Data Labeling
 
-In this tutorial, we will set up a data labeling web app for the cheese app. The entire environment will run inside containers using Docker. Since the app is accessed through a web browser, it’s more convenient to run the container on your laptop.
+In this tutorial, we will set up a data labeling (Label Studio) web app for the cheese app. The entire environment will run inside containers using Docker. Since the app is accessed through a web browser, it’s more convenient to run the container on your laptop.
 
 **In order to complete this tutorial you will need your own GCP account setup.**
 
