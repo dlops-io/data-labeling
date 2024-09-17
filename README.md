@@ -148,7 +148,7 @@ At this point, you will notice that you can’t access the images and instead re
 
 In addition to authentication, GCP buckets restrict access from domains that can’t be resolved via reverse DNS lookup. Since we are running Label Studio on localhost, GCP blocks access due to these default restrictions.
 
-CORS, or **Cross-Origin Resource Sharing**, controls which domains can access resources from a different domain. In this case, we need to allow localhost to access the GCP bucket.
+CORS, or **Cross-Origin Resource Sharing**, controls which domains can access resources from a different domain. In this case, we need to allow localhost (or from anywhere) to access the GCP bucket.
 
 Unfortunately, there’s no direct way to configure CORS for this use case through the GCP web interface—it must be done programmatically.
 
@@ -157,7 +157,7 @@ As a result, we need to set up another container to handle the CORS configuratio
 Luckily, our senior engineers have set up things for you. 
 The Dockerfile, Pipfiles and docker-CLI.sh is available for you. 
 
-Run `docker-shell-CLI.sh` and that should take you into a 
+Run `docker-shell-CLI.sh` to enter a container where you can execute `cli.py`.
 
 - Go to the shell where we ran the docker containers
 
