@@ -13,7 +13,7 @@ GCS_BUCKET_NAME = os.environ["GCS_BUCKET_NAME"]
 LABEL_STUDIO_URL = os.environ["LABEL_STUDIO_URL"]
 
 
-def set_cors_configuration():
+def set_cors_configuration(set=True):
     """Set a bucket's CORS policies configuration."""
 
     print("set_cors_configuration()")
@@ -21,16 +21,21 @@ def set_cors_configuration():
 
     # Initiate Storage client
     storage_client = storage.Client()
-    bucket = storage_client.get_bucket(bucket_name)
-    bucket.cors = [
-        {
-            "origin": ["*"],
-            "method": ["GET"],
-            "responseHeader": ["Content-Type", "Access-Control-Allow-Origin"],
-            "maxAgeSeconds": 3600,
-        }
-    ]
-    bucket.patch()
+    if set:
+        bucket = storage_client.get_bucket(bucket_name)
+        bucket.cors = [
+            {
+                "origin": ["*"],
+                "method": ["GET"],
+                "responseHeader": ["Content-Type", "Access-Control-Allow-Origin"],
+                "maxAgeSeconds": 3600,
+            }
+        ]
+        bucket.patch()
+    else:
+        bucket = storage_client.get_bucket(bucket_name)
+        bucket.cors = []
+        bucket.patch()
 
     print(f"Set CORS policies for bucket {bucket.name} is {bucket.cors}")
     return bucket
@@ -105,7 +110,10 @@ def get_project_tasks(api_key):
 
 def main(args=None):
     if args.cors:
-        set_cors_configuration()
+        set_cors_configuration(set=True)
+    
+    if args.remove_cors:
+        set_cors_configuration(set=False)
 
     if args.metadata:
         view_bucket_metadata()
@@ -131,6 +139,12 @@ if __name__ == "__main__":
         "--cors",
         action="store_true",
         help="Set the CORS configuration on a GCS bucket",
+    )
+    parser.add_argument(
+        "-r",
+        "--remove_cors",
+        action="store_true",
+        help="Remove the CORS configuration on a GCS bucket",
     )
     parser.add_argument(
         "-m",
