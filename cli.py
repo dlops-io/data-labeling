@@ -84,8 +84,8 @@ def get_projects(api_key):
     for project in projects:
         print(project.id, project.title, project.description)
 
-    project = label_studio_client.get_project(1)
-    print(project)
+        project = label_studio_client.get_project(project.id)
+        print(project)
 
 
 def get_project_tasks(api_key):
