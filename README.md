@@ -79,7 +79,7 @@ In this step we will assume we have already collected some data for the cheese a
 
 We will be using a pre-built container from DockerHub, `heartexlabs/label-studio:latest`, so there's no need to build the image—just run it. We'll configure the network ports, set `GOOGLE_APPLICATION_CREDENTIALS`, and adjust a few other environment variables. For more details, refer to the `docker-shell.sh` script.
 
-### Run `docker-shell.sh` or `docker-shell.bat`
+### Run `docker-shell.sh` 
 
 Based on your OS, run the startup script to running the container easy
 
