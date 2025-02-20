@@ -79,12 +79,12 @@ In this step we will assume we have already collected some data for the cheese a
 
 We will be using a pre-built container from DockerHub, `heartexlabs/label-studio:latest`, so there's no need to build the image—just run it. We'll configure the network ports, set `GOOGLE_APPLICATION_CREDENTIALS`, and adjust a few other environment variables. For more details, refer to the `docker-shell.sh` script.
 
-### Run `docker-shell.sh` or `docker-shell.bat`
+### Run `docker-shell.sh` 
 
 Based on your OS, run the startup script to running the container easy
 
 - Make sure you are inside the `data-labeling` folder and open a terminal at this location
-- Run `sh docker-shell.sh` or `docker-shell.bat` for windows
+- Run `sh docker-shell.sh` 
 
 This will run our Label Studio container in the background. Note that you won't see an interactive window, as we'll be interacting with Label Studio through a browser.
 
@@ -194,7 +194,7 @@ The `cli.py` script also offers the functionality to programmatically view the a
 - Go to User Profile > Account & Settings
 - You can copy the Access Token from this screen
 - Use this token as the -k argument in the following command line calls
-- Go to the shell where ran the docker containers
+- Go to the shell where ran the docker container (within the container)
 - Run `python cli.py -p -k` followed by your Access Token. This will list out your projects
 - Run `python cli.py -t -k` followed by your Access Token. This will list some tasks from the first project
 
@@ -215,7 +215,7 @@ Annotations: [{'id': 1, 'created_username': ' pavlos@seas.harvard.edu, 1', 'crea
 
 You may have noticed that we run the containers one after another. Often, we need to run multiple containers sequentially or as a bundle. Docker Compose provides this functionality, allowing us to manage multiple containers easily. Refer to the lecture notes for more details.
 
-You can now stop all containers and run them together using `docker-shell-copose.sh`
+You can now stop all containers and run them together using `docker-shell-compose.sh`
 
 
 
