@@ -126,7 +126,7 @@ Next we will configure Label Studio to read images from a GCS bucket and save an
   - Storage Title: `Cheese Images`
   - Bucket Name: `cheese-app-data-demo` (REPLACE WITH YOUR BUCKET NAME)
   - Bucket Prefix: `cheeses_unlabeled`
-  - File Filter Regex: `.*`
+  - Import Method: Select `Files - Automatically creates a task for each storage object (e.g. JPG, MP3, TXT)`
   - Enable: Treat every bucket object as a source file
   - Enable: Use pre-signed URLs
   - Ignore: Google Application Credentials
