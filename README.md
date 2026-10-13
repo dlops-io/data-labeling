@@ -162,7 +162,7 @@ Luckily, our senior engineers have set up things for you.
 The Dockerfile, Pipfiles and docker-CLI.sh is available for you. 
 
 - Change the bucket name in `docker-shell-CLI.sh` 
-- Run `docker-shell-CLI.sh` to enter a container where you can execute `cli.py`. 
+- Run `sh docker-shell-CLI.sh` to enter a container where you can execute `cli.py`. 
 - Go docker container that you just run
 - Run `python cli.py -c`
 - To view the CORs settings, run `python cli.py -m`
