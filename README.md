@@ -109,7 +109,8 @@ Here we will setup the Label Studio App to user our cheese images so we can anno
 - Login with `pavlos@seas.harvard.edu` / `awesome`, use the credentials in the docker compose file that you used
 - Click `Create Project` to create a new project
 - Give it a project name and save it
-- Skip `Data Import` tab and go to `Labeling Setup`
+- Skip `Data Import` tab and go to `Settings`
+- Click on `Labeling Interface` and then `Browse Templates`
 - Select Template: `Computer Vision > Image Classification`
 - Remove the default label choices and add: `brie`, `gouda`, `gruyere`, `parmigiano`
 - Save
