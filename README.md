@@ -198,6 +198,14 @@ The `cli.py` script also offers the functionality to programmatically view the a
 - Run `python cli.py -p -k` followed by your Access Token. This will list out your projects
 - Run `python cli.py -t -k` followed by your Access Token. This will list some tasks from the first project
 
+If that is not working, we will try the Legacy Token way: 
+
+- In your Label Studio browser, click on Label Studio on the top left-hand side and click on `Organization`
+- Then from the top right-hand side, click `API Tokens Settings` and enable 'Legacy Tokens'
+- Then from User Profile > Account & Settings, copy the Legacy Token
+- Run `python cli.py -p -k` followed by your Legacy Token. This will list out your projects
+- Run `python cli.py -t -k` followed by your Legacy Token. This will list some tasks from the first project.
+
 You will see the some json output of the annotations for each image that is being stored in Label Studio
 
 ```
